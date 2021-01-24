@@ -3,8 +3,8 @@ const express = require('express')
 const app = express()
 
 
-app.use('/', require('./landings.js'))
-app.use('/', require('./neas.js'))
+route.use('/landings', require('./landings.js'))
+route.use('/neas', require('./neas.js'))
 
 
 // Middleware para el enrutado de Landings

@@ -1,10 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+require("./configs/db")
 
 app.use(bodyParser.json())
 
-app.use('/', require('./routes'))
+app.use('/astronomy', require('./routes'))
 
 
 app.use((req, res, next) => {
