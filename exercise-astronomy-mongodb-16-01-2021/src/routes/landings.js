@@ -108,24 +108,32 @@ route.get("/date", async (req, res, next) => {
   }
 });
 
-const city = (nameCity) => geo.reverseGeocode('mapbox.places', 'latitude', 'longitude', function (err, geoData) {
+const city = (latitude, longitude) => geo.reverseGeocode('mapbox.places', latitude , longitude , function (err, geoData) {
   console.log(geoData);})
 
-route.get("/geo", async (req, res, next) => {
+route.get("/geo/:geolocation", async (req, res, next) => {
   console.log("req", req.params);
   const geolocation = req.params.geolocation
-  //const nameCity = geolocation.name
+  console.log(geolocation)
 
   try {
     const result = await LandingsMass.find(
 
-      { name: { $eq: name } },
-      { geolocation : city(geolocation)},
-      { geolocation: 1, _id: 0 } 
-
+      { name: geolocation },
+      { name: 1, geolocation: 1, _id: 0}
     ).lean();
+
+    
+
+    const lat = result[0].geolocation.latitude
+    const long = result[0].geolocation.longitude
+
+    city(lat, long)
+
+  
       
-      
+
+  
       console.info("succesfull", result);
       res.status(200).json({
         success: true,
